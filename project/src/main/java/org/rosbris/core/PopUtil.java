@@ -1,7 +1,7 @@
-package org.rosbris;
+package org.rosbris.core;
 
-import org.rosbris.DataSet.DataEntry;
 import org.rosbris.constants.SettlementType;
+import org.rosbris.core.DataSet.DataEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

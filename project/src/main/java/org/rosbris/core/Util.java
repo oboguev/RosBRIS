@@ -1,4 +1,4 @@
-package org.rosbris;
+package org.rosbris.core;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;

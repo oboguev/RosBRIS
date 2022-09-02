@@ -3,8 +3,12 @@ package org.rosbris;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.rosbris.DataSet.DataEntry;
 import org.rosbris.constants.ExternalCauses;
+import org.rosbris.core.Const;
+import org.rosbris.core.DataSet;
+import org.rosbris.core.PopUtil;
+import org.rosbris.core.Util;
+import org.rosbris.core.DataSet.DataEntry;
 
 /*
  * Число смертей от внешних причин за 1966-1990 гг., 

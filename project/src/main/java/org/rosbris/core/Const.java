@@ -1,4 +1,4 @@
-package org.rosbris;
+package org.rosbris.core;
 
 public class Const
 {

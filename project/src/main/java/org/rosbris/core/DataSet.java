@@ -1,4 +1,4 @@
-package org.rosbris;
+package org.rosbris.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
