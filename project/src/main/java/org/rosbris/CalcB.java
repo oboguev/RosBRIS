@@ -14,11 +14,14 @@ import org.rosbris.core.PopUtil;
 import org.rosbris.core.Util;
 
 /*
- * Погодовое число смертей от внешних причин за 1966-1990 гг., 
+ * Погодовое число смертей от внешних причин за 1959-1990 гг., 
  * как доля в общей смертности
  */
 public class CalcB
 {
+    // private static final int StartYear = 1966;
+    private static final int StartYear = 1959;
+
     static class YearData implements Comparable
     {
         int year;
@@ -45,7 +48,7 @@ public class CalcB
         DataSet pop89 = DataSet.load(Util.dirFile(Const.DataDir, "PopD5a1989-2014.txt"));
 
         for (DataEntry dr : dr59.entries())
-            commonEval(dr, pop59, 1966, 1988);
+            commonEval(dr, pop59, StartYear, 1988);
 
         for (DataEntry dr : dr89.entries())
             commonEval(dr, pop89, 1989, 1990);
@@ -96,7 +99,7 @@ public class CalcB
         Collections.sort(list);
 
         Util.out("===================================================================");
-        Util.out("Годовая доля смертей от внешних причин, 1966-1990, оба пола");
+        Util.out(String.format("Годовая доля смертей от внешних причин, %d-1990, оба пола", StartYear));
         Util.out("");
         for (YearData yd : list)
         {
@@ -106,7 +109,7 @@ public class CalcB
         Util.out("");
 
         Util.out("===================================================================");
-        Util.out("Годовая доля смертей от внешних причин, 1966-1990, мужчины");
+        Util.out(String.format("Годовая доля смертей от внешних причин, %d-1990, мужчины", StartYear));
         Util.out("");
         for (YearData yd : list)
         {
@@ -116,7 +119,7 @@ public class CalcB
         Util.out("");
 
         Util.out("===================================================================");
-        Util.out("Годовая доля смертей от внешних причин, 1966-1990, женщины");
+        Util.out(String.format("Годовая доля смертей от внешних причин, %d-1990, женщины", StartYear));
         Util.out("");
         for (YearData yd : list)
         {
