@@ -24,10 +24,22 @@ public class DataSet
             }
         }
 
+        public boolean has(String key)
+        {
+            return values.containsKey(key);
+        }
+
         public String asString(String key) throws Exception
         {
             if (!values.containsKey(key))
                 throw new Exception("DataEntry has no value for key: " + key);
+            return values.get(key);
+        }
+
+        public String asStringOptional(String key) throws Exception
+        {
+            if (!values.containsKey(key))
+                return null;
             return values.get(key);
         }
 
@@ -61,6 +73,11 @@ public class DataSet
     }
 
     private List<DataEntry> values = new ArrayList<>();
+
+    public List<DataEntry> entries()
+    {
+        return values;
+    }
 
     public static DataSet load(String path) throws Exception
     {
