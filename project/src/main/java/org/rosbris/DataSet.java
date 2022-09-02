@@ -33,19 +33,24 @@ public class DataSet
         {
             if (!values.containsKey(key))
                 throw new Exception("DataEntry has no value for key: " + key);
-            return values.get(key);
+            return values.get(key).trim();
         }
 
         public String asStringOptional(String key) throws Exception
         {
             if (!values.containsKey(key))
                 return null;
-            return values.get(key);
+            return values.get(key).trim();
         }
 
         public int asInt(String key) throws Exception
         {
             String s = asString(key);
+
+            if (s.equals("") || s.equals("."))
+            {
+                throw new Exception("DataEntry value is not available, key: " + key + ", value: " + s);
+            }
 
             try
             {
@@ -60,6 +65,11 @@ public class DataSet
         public double asDouble(String key) throws Exception
         {
             String s = asString(key);
+
+            if (s.equals("") || s.equals("."))
+            {
+                throw new Exception("DataEntry value is not available, key: " + key + ", value: " + s);
+            }
 
             try
             {

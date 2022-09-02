@@ -1,6 +1,7 @@
 package org.rosbris;
 
 import org.rosbris.DataSet.DataEntry;
+import org.rosbris.constants.SettlementType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,8 @@ public class PopUtil
         String sex = dr.asString("Sex");
         String reg = dr.asStringOptional("Reg");
 
+        String group = SettlementType.TOTAL.code();
+
         DataEntry de = null;
 
         for (DataEntry dex : pop.entries())
@@ -36,9 +39,11 @@ public class PopUtil
             if (reg != null && !dex.asString("Reg").equals(reg))
                 continue;
 
+            if (dex.has("Group") && !dex.asString("Group").equals(group))
+                continue;
+
             de = dex;
             break;
-
         }
 
         if (de == null)
@@ -62,7 +67,7 @@ public class PopUtil
                 groupPopulation = de.asInt("PopD5a" + ag);
             }
 
-            total += rate * groupPopulation;
+            total += (rate * groupPopulation) / 1_000_000;
         }
 
         return total;
