@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.rosbris.constants.ExternalCauses;
 import org.rosbris.core.Const;
 import org.rosbris.core.DataSet;
 import org.rosbris.core.DataSet.DataEntry;
@@ -14,21 +13,18 @@ import org.rosbris.core.PopUtil;
 import org.rosbris.core.Util;
 
 /*
- * Погодовое число смертей от внешних причин за 1959-1990 гг., 
- * как доля в общей смертности
+ * Погодовое число умерших от алкогольных отравлений
+ * и от иных отравлений
  */
-public class CalcB
+public class CalcC
 {
-    // private static final int StartYear = 1966;
     private static final int StartYear = 1959;
 
     static class YearData implements Comparable<YearData>
     {
         int year;
-        double total_male = 0;
-        double total_female = 0;
-        double external_male = 0;
-        double external_female = 0;
+        double alcohol_poisoning_death = 0;
+        double other_poisoning_death = 0;
 
         @Override
         public int compareTo(YearData o)
@@ -65,6 +61,10 @@ public class CalcB
         if (dr.has("Reg") && !dr.asString("Reg").equals(Const.RegionWholeRF))
             return;
 
+        int cause = dr.asInt("Cause");
+        if (cause != 163 && cause != 164)
+            return;
+
         YearData yd = yds.get(year);
         if (yd == null)
         {
@@ -73,22 +73,15 @@ public class CalcB
             yds.put(year, yd);
         }
 
-        String sex = dr.asString("Sex");
-
         double deaths = PopUtil.people(dr, pop);
 
-        if (sex.equals("M"))
-            yd.total_male += deaths;
-        else
-            yd.total_female += deaths;
-
-        int cause = dr.asInt("Cause");
-        if (ExternalCauses.isExternalCause(cause))
+        if (cause == 163)
         {
-            if (sex.equals("M"))
-                yd.external_male += deaths;
-            else
-                yd.external_female += deaths;
+            yd.alcohol_poisoning_death += deaths;
+        }
+        else if (cause == 164)
+        {
+            yd.other_poisoning_death += deaths;
 
         }
     }
@@ -99,32 +92,11 @@ public class CalcB
         Collections.sort(list);
 
         Util.out("===================================================================");
-        Util.out(String.format("Годовая доля смертей от внешних причин, %d-1990, оба пола", StartYear));
+        Util.out(String.format("Годовое количество осмертей от отравлений алкоголем и от других случайных отравлений, %d-1990, оба пола", StartYear));
         Util.out("");
         for (YearData yd : list)
         {
-            double pct = 100 * (yd.external_male + yd.external_female) / (yd.total_male + yd.total_female);
-            Util.out(String.format("%d;%f", yd.year, pct));
-        }
-        Util.out("");
-
-        Util.out("===================================================================");
-        Util.out(String.format("Годовая доля смертей от внешних причин, %d-1990, мужчины", StartYear));
-        Util.out("");
-        for (YearData yd : list)
-        {
-            double pct = 100 * (yd.external_male) / (yd.total_male);
-            Util.out(String.format("%d;%f", yd.year, pct));
-        }
-        Util.out("");
-
-        Util.out("===================================================================");
-        Util.out(String.format("Годовая доля смертей от внешних причин, %d-1990, женщины", StartYear));
-        Util.out("");
-        for (YearData yd : list)
-        {
-            double pct = 100 * (yd.external_female) / (yd.total_female);
-            Util.out(String.format("%d;%f", yd.year, pct));
+            Util.out(String.format("%d;%.0f;%.0f", yd.year, yd.alcohol_poisoning_death, yd.other_poisoning_death));
         }
         Util.out("");
     }
