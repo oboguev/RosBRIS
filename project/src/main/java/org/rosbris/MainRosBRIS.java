@@ -10,7 +10,9 @@ public class MainRosBRIS
         {
             // new CalcA().eval();
             // new CalcB().eval();
-            new CalcC().eval();
+            // new CalcC().eval();
+            new CalcD().eval("M");
+            new CalcD().eval("F");
             Util.out("=== Completed === ");
         }
         catch (Exception ex)
