@@ -135,4 +135,21 @@ public class DataSet
             values.add(new DataEntry(keys, vals));
         }
     }
+
+    public DataSet selectEq(String key, String value) throws Exception
+    {
+        DataSet ds = new DataSet();
+        for (DataEntry de : values)
+        {
+            if (de.asString(key).equals(value))
+                ds.values.add(de);
+        }
+        return ds;
+    }
+
+    public DataSet append(DataSet ds)
+    {
+        values.addAll(ds.values);
+        return this;
+    }
 }

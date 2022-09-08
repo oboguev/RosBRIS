@@ -74,7 +74,11 @@ public class PopUtil
         String sex = dr.asString("Sex");
         String reg = dr.asStringOptional("Reg");
 
-        String group = SettlementType.TOTAL.code();
+        String group;
+        if (dr.has("Group"))
+            group = dr.asString("Group");
+        else
+            group = SettlementType.TOTAL.code();
 
         for (DataEntry de : pop.entries())
         {
